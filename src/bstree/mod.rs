@@ -21,19 +21,19 @@ impl<T> BSTree<T>
         }
     }
 
-    pub fn add(&mut self, value: T) {
+    pub fn insert(&mut self, value: T) {
         if value == self.value {
             // No duplicate values
             return
         } else if value < self.value {
             match &mut self.left {
                 None => self.left = Some(Box::new(BSTree::new(value))),
-                Some(tree) => tree.add(value)
+                Some(tree) => tree.insert(value)
             }
         } else {
             match &mut self.right {
                 None => self.right = Some(Box::new(BSTree::new(value))),
-                Some(tree) => tree.add(value)
+                Some(tree) => tree.insert(value)
             }
         }
     }

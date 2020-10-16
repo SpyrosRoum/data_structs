@@ -11,9 +11,9 @@ fn create_new() {
 #[test]
 fn add_values() {
     let mut tree = BSTree::new(24);
-    tree.add(40);
-    tree.add(32);
-    tree.add(2);
+    tree.insert(40);
+    tree.insert(32);
+    tree.insert(2);
 
     assert_eq!(tree.len(), 4);
     assert_eq!(tree.get(32), Some(&32));
@@ -23,9 +23,9 @@ fn add_values() {
 #[test]
 fn get_max() {
     let mut tree = BSTree::new(24);
-    tree.add(40);
-    tree.add(32);
-    tree.add(2);
+    tree.insert(40);
+    tree.insert(32);
+    tree.insert(2);
 
     assert_eq!(tree.max(), &40);
 }
@@ -33,9 +33,9 @@ fn get_max() {
 #[test]
 fn get_min() {
     let mut tree = BSTree::new(24);
-    tree.add(40);
-    tree.add(32);
-    tree.add(2);
+    tree.insert(40);
+    tree.insert(32);
+    tree.insert(2);
 
     assert_eq!(tree.min(), &2);
 }
@@ -43,9 +43,9 @@ fn get_min() {
 #[test]
 fn get_ordered_vec() {
     let mut tree = BSTree::new(24);
-    tree.add(40);
-    tree.add(32);
-    tree.add(2);
+    tree.insert(40);
+    tree.insert(32);
+    tree.insert(2);
 
     assert_eq!(tree.ordered_traversal(), vec![&2, &24, &32, &40]);
 }
