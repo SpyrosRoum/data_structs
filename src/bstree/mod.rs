@@ -47,7 +47,7 @@ impl<T> BSTree<T>
                 Some(tree) => tree.get(value)
             }
         } else {
-            match &self.left {
+            match &self.right {
                 None => None,
                 Some(tree) => tree.get(value)
             }
