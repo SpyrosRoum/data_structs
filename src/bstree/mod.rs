@@ -54,23 +54,6 @@ impl<T> BSTree<T>
         }
     }
 
-    pub fn get_mut(&mut self, value: T) -> Option<&mut T> {
-        if self.value == value {
-            Some(&mut self.value)
-        } else if value < self.value {
-            match &mut self.left {
-                None => None,
-                Some(tree) => tree.get_mut(value)
-            }
-        } else {
-            match &mut self.left {
-                None => None,
-                Some(tree) => tree.get_mut(value)
-            }
-        }
-    }
-
-
     pub fn len(&self) -> usize {
         let mut length = 1;
         if let Some(tree) = &self.left {
@@ -105,27 +88,11 @@ impl<T> BSTree<T>
         }
     }
 
-    pub fn max_mut(&mut self) -> &mut T {
-        if let Some(tree) = &mut self.right {
-            tree.max_mut()
-        } else {
-            &mut self.value
-        }
-    }
-
     pub fn min(&self) -> &T {
         if let Some(tree) = &self.left {
             tree.min()
         } else {
             &self.value
-        }
-    }
-
-    pub fn min_mut(&mut self) -> &mut T {
-        if let Some(tree) = &mut self.right {
-            tree.min_mut()
-        } else {
-            &mut self.value
         }
     }
 }
