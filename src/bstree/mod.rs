@@ -1,3 +1,5 @@
+#[cfg(test)]
+mod tests;
 
 /// Binary search tree
 pub struct BSTree<T>
@@ -42,12 +44,12 @@ impl<T> BSTree<T>
         } else if value < self.value {
             match &self.left {
                 None => None,
-                Some(tree) => tree.exists(value)
+                Some(tree) => tree.get(value)
             }
         } else {
             match &self.left {
                 None => None,
-                Some(tree) => tree.exists(value)
+                Some(tree) => tree.get(value)
             }
         }
     }
@@ -58,12 +60,12 @@ impl<T> BSTree<T>
         } else if value < self.value {
             match &mut self.left {
                 None => None,
-                Some(tree) => tree.exists(value)
+                Some(tree) => tree.get_mut(value)
             }
         } else {
             match &mut self.left {
                 None => None,
-                Some(tree) => tree.exists(value)
+                Some(tree) => tree.get_mut(value)
             }
         }
     }
@@ -99,7 +101,7 @@ impl<T> BSTree<T>
         if let Some(tree) = &self.right {
             tree.max()
         } else {
-            &value
+            &self.value
         }
     }
 
@@ -107,7 +109,7 @@ impl<T> BSTree<T>
         if let Some(tree) = &mut self.right {
             tree.max_mut()
         } else {
-            &mut value
+            &mut self.value
         }
     }
 
@@ -115,7 +117,7 @@ impl<T> BSTree<T>
         if let Some(tree) = &self.left {
             tree.min()
         } else {
-            &value
+            &self.value
         }
     }
 
@@ -123,7 +125,7 @@ impl<T> BSTree<T>
         if let Some(tree) = &mut self.right {
             tree.min_mut()
         } else {
-            &mut value
+            &mut self.value
         }
     }
 }
