@@ -2,38 +2,41 @@
 mod tests;
 
 /// Binary search tree
+#[derive(Clone)]
 pub struct BSTree<T>
-    where T: PartialOrd + PartialEq
+where
+    T: PartialOrd + PartialEq + Copy + Clone,
 {
     value: T,
     left: Option<Box<BSTree<T>>>,
-    right: Option<Box<BSTree<T>>>
+    right: Option<Box<BSTree<T>>>,
 }
 
 impl<T> BSTree<T>
-    where T: PartialEq + PartialOrd
+where
+    T: PartialEq + PartialOrd + Copy + Clone,
 {
     pub fn new(root_val: T) -> Self {
         BSTree {
             value: root_val,
             left: None,
-            right: None
+            right: None,
         }
     }
 
     pub fn insert(&mut self, value: T) {
         if value == self.value {
             // No duplicate values
-            return
+            return;
         } else if value < self.value {
             match &mut self.left {
                 None => self.left = Some(Box::new(BSTree::new(value))),
-                Some(tree) => tree.insert(value)
+                Some(tree) => tree.insert(value),
             }
         } else {
             match &mut self.right {
                 None => self.right = Some(Box::new(BSTree::new(value))),
-                Some(tree) => tree.insert(value)
+                Some(tree) => tree.insert(value),
             }
         }
     }
@@ -44,14 +47,84 @@ impl<T> BSTree<T>
         } else if value < self.value {
             match &self.left {
                 None => None,
-                Some(tree) => tree.get(value)
+                Some(tree) => tree.get(value),
             }
         } else {
             match &self.right {
                 None => None,
-                Some(tree) => tree.get(value)
+                Some(tree) => tree.get(value),
             }
         }
+    }
+
+    pub fn delete(self, value: T) -> Option<Self> {
+        Self::delete_node(Some(self), value)
+    }
+
+    fn delete_node(root: Option<BSTree<T>>, value: T) -> Option<Self> {
+        if root.is_none() {
+            return None;
+        }
+
+        let mut root = root.unwrap();
+
+        if value < root.value {
+            root.left = {
+                if let Some(node) = root.left {
+                    let temp = Self::delete_node(Some(*node), value);
+                    if let Some(node) = temp {
+                        Some(Box::new(node))
+                    } else {
+                        None
+                    }
+                } else {
+                    None
+                }
+            };
+        } else if value > root.value {
+            root.right = {
+                if let Some(node) = root.right {
+                    let temp = Self::delete_node(Some(*node), value);
+                    if let Some(node) = temp {
+                        Some(Box::new(node))
+                    } else {
+                        None
+                    }
+                } else {
+                    None
+                }
+            };
+        } else {
+            if root.left.is_none() {
+                let temp = root.left;
+                return match temp {
+                    None => None,
+                    Some(node) => Some(*node),
+                };
+            } else if root.right.is_none() {
+                let temp = root.right;
+                return match temp {
+                    None => None,
+                    Some(node) => Some(*node),
+                };
+            }
+
+            root.right = {
+                if let Some(node) = root.right {
+                    root.value = *node.min();
+                    let temp = Self::delete_node(Some(*node), root.value);
+                    if let Some(node) = temp {
+                        Some(Box::new(node))
+                    } else {
+                        None
+                    }
+                } else {
+                    None
+                }
+            };
+        }
+
+        Some(root)
     }
 
     pub fn len(&self) -> usize {
