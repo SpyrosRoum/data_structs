@@ -25,15 +25,12 @@ where
     }
 
     pub fn insert(&mut self, value: T) {
-        if value == self.value {
-            // No duplicate values
-            return;
-        } else if value < self.value {
+        if value < self.value {
             match &mut self.left {
                 None => self.left = Some(Box::new(BSTree::new(value))),
                 Some(tree) => tree.insert(value),
             }
-        } else {
+        } else if value > self.value {
             match &mut self.right {
                 None => self.right = Some(Box::new(BSTree::new(value))),
                 Some(tree) => tree.insert(value),
@@ -62,9 +59,7 @@ where
     }
 
     fn delete_node(root: Option<BSTree<T>>, value: T) -> Option<Self> {
-        if root.is_none() {
-            return None;
-        }
+        root.as_ref()?;
 
         let mut root = root.unwrap();
 

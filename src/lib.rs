@@ -1,2 +1,2 @@
-// mod bstree;
+mod bstree;
 mod vector;
